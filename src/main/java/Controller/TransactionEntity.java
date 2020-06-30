@@ -8,6 +8,8 @@ import java.math.BigInteger;
 public class TransactionEntity {
 
     private String debtorDepositNumber;
+    private String creditorDepositNumber;
+    private BigInteger amount;
 
     public String getCreditorDepositNumber() {
         return creditorDepositNumber;
@@ -25,8 +27,7 @@ public class TransactionEntity {
         this.debtorDepositNumber = debtorDepositNumber;
     }
 
-    private String creditorDepositNumber;
-    private BigInteger amount;
+
 
 
     public BigInteger getAmount() {

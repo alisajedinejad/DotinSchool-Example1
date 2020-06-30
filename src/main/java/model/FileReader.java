@@ -46,7 +46,7 @@ public class FileReader {
         return payEntities;
     }
 
-    public List<BalanceEntity> getPaysEntities(){
+    public List<BalanceEntity> getBalanceEntities(){
 
         List<BalanceEntity> balanceEntities =new ArrayList<BalanceEntity>();
         try {
