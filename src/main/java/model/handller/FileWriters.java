@@ -1,7 +1,8 @@
-package model;
+package model.handller;
 
-import Controller.BalanceEntity;
-import Controller.TransactionEntity;
+import model.annotation.BalanceEntity;
+import model.annotation.PayEntity;
+import model.annotation.TransactionEntity;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -53,8 +54,10 @@ public class FileWriters {
 
         for (int i = 0; i < transactionEntity.size(); i++) {
 
-            data+=transactionEntity.get(i).getDebtorDepositNumber() + "\t" + transactionEntity.get(i).getCreditorDepositNumber() + "\t" + transactionEntity.get(i).getAmount()+"\n";
+            data += transactionEntity.get(i).getDebtorDepositNumber() + "\t" + transactionEntity.get(i).getCreditorDepositNumber() + "\t" + transactionEntity.get(i).getAmount() + "\n";
         }
+
+//        System.out.println("in transaction "+transactionEntity.size());
 
         try {
             FileWriter myWriter = new FileWriter("DataBase/transactions.txt");
@@ -67,5 +70,24 @@ public class FileWriters {
         }
     }
 
+    public void writeToPay(List<PayEntity> payEntities) {
 
+        String data = "";
+        for (int i = 0; i < payEntities.size(); i++) {
+
+            data += payEntities.get(i).getDepositType() + "\t" + payEntities.get(i).getDepositNumber() + "\t" + payEntities.get(i).getAmount() + "\n";
+
+
+        }
+        try {
+            FileWriter myWriter = new FileWriter("DataBase/pay.txt");
+            myWriter.write(data);
+            myWriter.close();
+            System.out.println("Successfully wrote to the pay.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+    }
 }

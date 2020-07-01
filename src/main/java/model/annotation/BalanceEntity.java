@@ -1,6 +1,6 @@
-package Controller;
+package model.annotation;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  * Created by ali on 30/06/2020.
@@ -8,14 +8,14 @@ import java.math.BigInteger;
 public class BalanceEntity {
 
     private String depositNumber;
-    private BigInteger amount;
+    private BigDecimal amount;
 
 
-    public BigInteger getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(BigInteger amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

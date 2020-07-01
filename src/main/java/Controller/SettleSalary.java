@@ -1,6 +1,10 @@
 package Controller;
 
-import java.math.BigInteger;
+import model.annotation.BalanceEntity;
+import model.annotation.PayEntity;
+import model.annotation.TransactionEntity;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +14,14 @@ import java.util.List;
 public class SettleSalary {
 
     private List<BalanceEntity> balanceEntities;
-    private List<TransactionEntity> transactionEntities=new ArrayList<TransactionEntity>();
+    private List<TransactionEntity> transactionEntities = new ArrayList<TransactionEntity>();
     private List<PayEntity> payEntities;
 
 
     public List<TransactionEntity> getTransactionEntities() {
         return transactionEntities;
     }
+
     public List<BalanceEntity> getBalanceEntities() {
         return balanceEntities;
     }
@@ -44,12 +49,8 @@ public class SettleSalary {
 
     public List<BalanceEntity> setSalary() {
 
-        BigInteger debtorSumMoney = new BigInteger("0");
+        BigDecimal debtorSumMoney = new BigDecimal("0");
         String debtorDepositNumber = "";
-
-
-
-
 
 
         for (int i = 0; i < payEntities.size(); i++) {
@@ -60,27 +61,25 @@ public class SettleSalary {
             }
         }
 
-
-
-
-
         for (int i = 0; i < this.payEntities.size(); i++) {
             if (this.payEntities.get(i).getDepositType().equals("creditor")) {
 
+
                 String creatorNumber = this.payEntities.get(i).getDepositNumber();
-                BigInteger creatorMoney = this.payEntities.get(i).getAmount();
+                BigDecimal creatorMoney = this.payEntities.get(i).getAmount();
                 debtorSumMoney = debtorSumMoney.add(creatorMoney);
                 for (int j = 0; j < this.balanceEntities.size(); j++) {
-                    if (this.balanceEntities.get(i).getDepositNumber().equals(creatorNumber)) {
-                        this.balanceEntities.get(i).setAmount(this.balanceEntities.get(i).getAmount().add(creatorMoney));
-                        TransactionEntity transactionEntity=new TransactionEntity();
+
+                    if (this.balanceEntities.get(j).getDepositNumber().equals(creatorNumber)) {
+
+                        this.balanceEntities.get(j).setAmount(this.balanceEntities.get(j).getAmount().add(creatorMoney));
+                        TransactionEntity transactionEntity = new TransactionEntity();
                         transactionEntity.setDebtorDepositNumber(debtorDepositNumber);
-                        transactionEntity.setCreditorDepositNumber(this.balanceEntities.get(i).getDepositNumber());
+                        transactionEntity.setCreditorDepositNumber(this.balanceEntities.get(j).getDepositNumber());
                         transactionEntity.setAmount(creatorMoney);
-//                        this.transactionEntities.add(transactionEntity);
-                        System.out.println("this is transactionEntity -->>> "+transactionEntity);
+                        System.out.println("this is transactionEntity -->>> " + transactionEntity);
                         this.transactionEntities.add(transactionEntity);
-                        System.out.println("this is transactionEntities -->>> "+this.transactionEntities);
+                        System.out.println("this is transactionEntities -->>> " + this.transactionEntities);
                         break;
                     }
                 }

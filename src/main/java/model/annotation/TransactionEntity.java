@@ -1,6 +1,6 @@
-package Controller;
+package model.annotation;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  * Created by ali on 30/06/2020.
@@ -9,7 +9,7 @@ public class TransactionEntity {
 
     private String debtorDepositNumber;
     private String creditorDepositNumber;
-    private BigInteger amount;
+    private BigDecimal amount;
 
     public String getCreditorDepositNumber() {
         return creditorDepositNumber;
@@ -28,13 +28,11 @@ public class TransactionEntity {
     }
 
 
-
-
-    public BigInteger getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(BigInteger amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
