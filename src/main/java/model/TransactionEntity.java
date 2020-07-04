@@ -1,4 +1,4 @@
-package model.annotation;
+package model;
 
 import java.math.BigDecimal;
 
@@ -6,7 +6,6 @@ import java.math.BigDecimal;
  * Created by ali on 30/06/2020.
  */
 public class TransactionEntity {
-
     private String debtorDepositNumber;
     private String creditorDepositNumber;
     private BigDecimal amount;

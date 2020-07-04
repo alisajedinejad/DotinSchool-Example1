@@ -1,22 +1,18 @@
-package Controller;
+package Service;
 
-import model.annotation.BalanceEntity;
-import model.annotation.PayEntity;
-import model.annotation.TransactionEntity;
+import model.BalanceEntity;
+import model.PayEntity;
+import model.TransactionEntity;
+import org.apache.log4j.BasicConfigurator;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ali on 30/06/2020.
- */
 public class SettleSalary {
-
     private List<BalanceEntity> balanceEntities;
     private List<TransactionEntity> transactionEntities = new ArrayList<TransactionEntity>();
     private List<PayEntity> payEntities;
-
 
     public List<TransactionEntity> getTransactionEntities() {
         return transactionEntities;
@@ -46,55 +42,40 @@ public class SettleSalary {
                 '}';
     }
 
-
     public List<BalanceEntity> setSalary() {
-
-        BigDecimal debtorSumMoney = new BigDecimal("0");
+        BasicConfigurator.configure();
+        BigDecimal debtorSumMoney = BigDecimal.ZERO;
         String debtorDepositNumber = "";
-
-
-        for (int i = 0; i < payEntities.size(); i++) {
-            if (payEntities.get(i).getDepositType().equals("debtor")) {
-
-                debtorDepositNumber = payEntities.get(i).getDepositNumber();
+        for (PayEntity payEntity : this.payEntities) {
+            if (payEntity.getDepositType().equals("debtor")) {
+                debtorDepositNumber = payEntity.getDepositNumber();
                 break;
             }
         }
-
-        for (int i = 0; i < this.payEntities.size(); i++) {
-            if (this.payEntities.get(i).getDepositType().equals("creditor")) {
-
-
-                String creatorNumber = this.payEntities.get(i).getDepositNumber();
-                BigDecimal creatorMoney = this.payEntities.get(i).getAmount();
+        for (PayEntity payEntity : this.payEntities) {
+            if (payEntity.getDepositType().equals("creditor")) {
+                String creatorNumber = payEntity.getDepositNumber();
+                BigDecimal creatorMoney = payEntity.getAmount();
                 debtorSumMoney = debtorSumMoney.add(creatorMoney);
-                for (int j = 0; j < this.balanceEntities.size(); j++) {
-
-                    if (this.balanceEntities.get(j).getDepositNumber().equals(creatorNumber)) {
-
-                        this.balanceEntities.get(j).setAmount(this.balanceEntities.get(j).getAmount().add(creatorMoney));
+                for (BalanceEntity balanceEntity : this.balanceEntities) {
+                    if (balanceEntity.getDepositNumber().equals(creatorNumber)) {
+                        balanceEntity.setAmount(balanceEntity.getAmount().add(creatorMoney));
                         TransactionEntity transactionEntity = new TransactionEntity();
                         transactionEntity.setDebtorDepositNumber(debtorDepositNumber);
-                        transactionEntity.setCreditorDepositNumber(this.balanceEntities.get(j).getDepositNumber());
+                        transactionEntity.setCreditorDepositNumber(balanceEntity.getDepositNumber());
                         transactionEntity.setAmount(creatorMoney);
-                        System.out.println("this is transactionEntity -->>> " + transactionEntity);
                         this.transactionEntities.add(transactionEntity);
-                        System.out.println("this is transactionEntities -->>> " + this.transactionEntities);
                         break;
                     }
                 }
             }
         }
-
-
-        for (int i = 0; i < this.balanceEntities.size(); i++) {
-            if (this.balanceEntities.get(i).getDepositNumber().equals(debtorDepositNumber)) {
-                balanceEntities.get(i).setAmount(balanceEntities.get(i).getAmount().subtract(debtorSumMoney));
+        for (BalanceEntity balanceEntity : this.balanceEntities) {
+            if (balanceEntity.getDepositNumber().equals(debtorDepositNumber)) {
+                balanceEntity.setAmount(balanceEntity.getAmount().subtract(debtorSumMoney));
                 break;
             }
         }
-
-
         return balanceEntities;
     }
 }

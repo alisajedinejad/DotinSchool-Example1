@@ -1,4 +1,4 @@
-package ExeptionHandler;
+package Exception;
 
 public class DepositBalanceNotEnough extends Exception {
     public DepositBalanceNotEnough() {

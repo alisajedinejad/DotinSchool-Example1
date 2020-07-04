@@ -1,22 +1,11 @@
-package model.annotation;
+package model;
 
 import java.math.BigDecimal;
 
-/**
- * Created by ali on 30/06/2020.
- */
-public class PayEntity {
-    private String depositType;
+
+public class BalanceEntity {
     private String depositNumber;
     private BigDecimal amount;
-
-    public String getDepositType() {
-        return depositType;
-    }
-
-    public void setDepositType(String depositType) {
-        this.depositType = depositType;
-    }
 
     public BigDecimal getAmount() {
         return amount;
@@ -37,7 +26,6 @@ public class PayEntity {
     @Override
     public String toString() {
         return "PayEntity{" +
-                "depositType='" + depositType + '\'' +
                 ", depositNumber='" + depositNumber + '\'' +
                 ", amount=" + amount +
                 '}';

@@ -1,7 +1,8 @@
-package model.handller;
+package Service.Handler;
 
-import model.annotation.BalanceEntity;
-import model.annotation.PayEntity;
+import model.BalanceEntity;
+import model.PayEntity;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,18 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * Created by ali on 30/06/2020.
- */
 public class FileReader {
-
-
-    public FileReader() {
-    }
-
+    static Logger log = Logger.getLogger(FileReader.class.getName());
 
     public List<PayEntity> getPaysEntities() {
-
         List<PayEntity> payEntities = new ArrayList<PayEntity>();
         try {
             File myObj = new File("DataBase/pay.txt");
@@ -34,20 +27,17 @@ public class FileReader {
                 payEntity.setDepositNumber(thisLine[1]);
                 payEntity.setDepositType(thisLine[0]);
                 payEntities.add(payEntity);
-
             }
+            log.info("All files successfully read .");
             myReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
+            log.error("An error occurred.");
             e.printStackTrace();
         }
-
-
         return payEntities;
     }
 
     public List<BalanceEntity> getBalanceEntities() {
-
         List<BalanceEntity> balanceEntities = new ArrayList<BalanceEntity>();
         try {
             File myObj = new File("DataBase/balance.txt");
@@ -59,15 +49,11 @@ public class FileReader {
                 balanceEntity.setAmount(new BigDecimal(thisLine[1]));
                 balanceEntity.setDepositNumber(thisLine[0]);
                 balanceEntities.add(balanceEntity);
-
             }
             myReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
             e.printStackTrace();
         }
-
-
         return balanceEntities;
     }
 }
